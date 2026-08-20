@@ -1,0 +1,30 @@
+class Solution:
+    def isValid(self, s):
+        # Quick check: odd-length strings cannot be valid
+        if len(s) % 2 != 0:
+            return False
+
+        # Map each closing bracket to its matching open bracket
+        matching_bracket = {
+            ')': '(',
+            '}': '{',
+            ']': '['
+        }
+
+        stack = []
+
+        for char in s:
+            if char in matching_bracket:
+                # Closing bracket encountered
+                # Pop the top element if stack is non-empty, otherwise use a dummy value
+                top_element = stack.pop() if stack else '#'
+
+                # Check if it matches the expected open bracket
+                if matching_bracket[char] != top_element:
+                    return False
+            else:
+                # Opening bracket encountered, push to stack
+                stack.append(char)
+
+        # Valid only if all opened brackets were properly matched and popped
+        return len(stack) == 0
